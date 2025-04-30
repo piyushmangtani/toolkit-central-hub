@@ -1,4 +1,5 @@
 
+import React from "react";
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -11,26 +12,32 @@ import InsightArchiving from "./pages/InsightArchiving";
 import LogoSlideGenerator from "./pages/LogoSlideGenerator";
 import IrisImageScrapper from "./pages/IrisImageScrapper";
 
+// Create the QueryClient outside of the component
 const queryClient = new QueryClient();
 
-const App = () => (
-  <QueryClientProvider client={queryClient}>
-    <BrowserRouter>
-      <TooltipProvider>
-        <Routes>
-          <Route path="/" element={<Index />} />
-          <Route path="/case-retagging" element={<CaseRetagging />} />
-          <Route path="/insight-archiving" element={<InsightArchiving />} />
-          <Route path="/logo-slide-generator" element={<LogoSlideGenerator />} />
-          <Route path="/iris-image-scrapper" element={<IrisImageScrapper />} />
-          {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
-          <Route path="*" element={<NotFound />} />
-        </Routes>
-        <Toaster />
-        <Sonner />
-      </TooltipProvider>
-    </BrowserRouter>
-  </QueryClientProvider>
-);
+// Define App component explicitly as a function component
+const App: React.FC = () => {
+  return (
+    <React.StrictMode>
+      <QueryClientProvider client={queryClient}>
+        <BrowserRouter>
+          <TooltipProvider>
+            <Routes>
+              <Route path="/" element={<Index />} />
+              <Route path="/case-retagging" element={<CaseRetagging />} />
+              <Route path="/insight-archiving" element={<InsightArchiving />} />
+              <Route path="/logo-slide-generator" element={<LogoSlideGenerator />} />
+              <Route path="/iris-image-scrapper" element={<IrisImageScrapper />} />
+              {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
+              <Route path="*" element={<NotFound />} />
+            </Routes>
+            <Toaster />
+            <Sonner />
+          </TooltipProvider>
+        </BrowserRouter>
+      </QueryClientProvider>
+    </React.StrictMode>
+  );
+};
 
 export default App;
