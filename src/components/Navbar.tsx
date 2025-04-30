@@ -1,22 +1,23 @@
 
 import React from 'react';
 import { cn } from '@/lib/utils';
+import { Link } from 'react-router-dom';
 
 const Navbar: React.FC = () => {
   return (
     <header className="w-full py-4 px-6 bg-white border-b border-blue-100 sticky top-0 z-10">
       <div className="container max-w-7xl mx-auto flex justify-between items-center">
-        <div className="flex items-center gap-2">
+        <Link to="/" className="flex items-center gap-2">
           <img 
             src="/lovable-uploads/caaddcdb-7615-4b2f-a022-f026fce2699a.png" 
             alt="PPK Logo" 
             className="w-8 h-8"
           />
           <h1 className="text-xl font-bold tracking-tight text-blue-500">PPK Toolkit</h1>
-        </div>
+        </Link>
         
         <nav className="hidden md:flex items-center space-x-6">
-          <a href="#" className="text-sm font-medium text-gray-500 hover:text-blue-500 transition-colors">Home</a>
+          <Link to="/" className="text-sm font-medium text-gray-500 hover:text-blue-500 transition-colors">Home</Link>
           <a href="#" className="text-sm font-medium text-gray-500 hover:text-blue-500 transition-colors">Support</a>
         </nav>
         

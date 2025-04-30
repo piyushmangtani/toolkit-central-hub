@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import FileUpload from '@/components/FileUpload';
+import BackButton from '@/components/BackButton';
 import { Archive } from 'lucide-react';
 
 const InsightArchiving: React.FC = () => {
@@ -18,6 +19,10 @@ const InsightArchiving: React.FC = () => {
       <Navbar />
       <main className="flex-grow py-10 px-4">
         <div className="container mx-auto max-w-4xl">
+          <div className="mb-6">
+            <BackButton color="blue" />
+          </div>
+
           <div className="mb-8 flex items-center space-x-3">
             <div className="p-3 bg-blue-100 rounded-full">
               <Archive className="text-blue-400" size={24} />

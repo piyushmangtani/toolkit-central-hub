@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import FileUpload from '@/components/FileUpload';
+import BackButton from '@/components/BackButton';
 import { Scan } from 'lucide-react';
 
 const IrisImageScrapper: React.FC = () => {
@@ -18,6 +19,10 @@ const IrisImageScrapper: React.FC = () => {
       <Navbar />
       <main className="flex-grow py-10 px-4">
         <div className="container mx-auto max-w-4xl">
+          <div className="mb-6">
+            <BackButton color="green" />
+          </div>
+
           <div className="mb-8 flex items-center space-x-3">
             <div className="p-3 bg-green-100 rounded-full">
               <Scan className="text-green-400" size={24} />
