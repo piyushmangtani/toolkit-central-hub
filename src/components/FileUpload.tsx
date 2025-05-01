@@ -11,6 +11,8 @@ interface FileUploadProps {
   maxFileSizeMB?: number;
   buttonColor?: string;
   onFileUpload: (file: File) => void;
+  onRunClick?: () => void;
+  isProcessing?: boolean;
 }
 
 const FileUpload: React.FC<FileUploadProps> = ({
@@ -18,7 +20,9 @@ const FileUpload: React.FC<FileUploadProps> = ({
   acceptedFileTypes = ".xlsx,.xls,.csv",
   maxFileSizeMB = 10,
   buttonColor = "blue",
-  onFileUpload
+  onFileUpload,
+  onRunClick,
+  isProcessing = false
 }) => {
   const [isDragging, setIsDragging] = useState(false);
   const [file, setFile] = useState<File | null>(null);
@@ -175,9 +179,10 @@ const FileUpload: React.FC<FileUploadProps> = ({
       <div className="mt-6">
         <Button 
           className={cn("w-full", getButtonColorClasses())}
-          disabled={!file}
+          disabled={!file || isProcessing}
+          onClick={onRunClick}
         >
-          Run
+          {isProcessing ? "Processing..." : "Run"}
         </Button>
       </div>
     </div>

@@ -84,21 +84,10 @@ const IrisImageScrapper: React.FC = () => {
               title="IRIS Image Scrapper Tool" 
               buttonColor="green"
               acceptedFileTypes=".jpg,.jpeg,.png"
-              onFileUpload={handleFileUpload} 
+              onFileUpload={handleFileUpload}
+              onRunClick={handleRunScript}
+              isProcessing={isProcessing}
             />
-            
-            <div className="mt-6">
-              <button 
-                onClick={handleRunScript}
-                disabled={!uploadedFile || isProcessing}
-                className={`w-full py-2 px-4 rounded-md text-white font-medium
-                  ${!uploadedFile || isProcessing 
-                    ? 'bg-gray-400 cursor-not-allowed' 
-                    : 'bg-green-400 hover:bg-green-500'}`}
-              >
-                {isProcessing ? "Processing..." : "Run"}
-              </button>
-            </div>
             
             {uploadedFile && (
               <div className="mt-4 p-4 bg-gray-50 rounded-md">
