@@ -1,20 +1,22 @@
+import pandas as pd
 
 def process_image(file_path):
     """
-    Process an Excel file and extract data from it.
-    
+    Process an Excel file and extract data from it as JSON.
+
     Args:
-        file_path (str): Path to the Excel file
-        
+        file_path (str): Path to the Excel file.
+
     Returns:
-        dict: Results of the processing
+        str: A JSON string (list of records) representing the sheet’s data,
+             with any missing values as null.
     """
     print(f"Processing file: {file_path}")
-    
-    # This is a placeholder function.
-    # In a real implementation, you would add Excel processing logic here,
-    # such as using pandas, openpyxl, or other libraries to read Excel files.
-    
-    # For now, just return "Hello World"
-    return {"message": "Excel data processed successfully"}
+    # Read the first sheet of the Excel file into a DataFrame
+    df = pd.read_excel(file_path)
 
+    # Export directly to JSON (orient="records" → list of dicts; NaN → null)
+    json_str = df.to_json(orient="records")
+
+    #return json_str
+    return {"message": json_str}
