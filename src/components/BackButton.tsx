@@ -18,10 +18,10 @@ const BackButton: React.FC<BackButtonProps> = ({ className, color = 'blue' }) =>
 
   const getHoverColor = () => {
     switch (color) {
-      case 'red': return 'hover:text-red-400';
-      case 'blue': return 'hover:text-blue-400';
-      case 'yellow': return 'hover:text-yellow-400';
-      case 'green': return 'hover:text-green-400';
+      case 'red': return 'hover:text-black-400';
+      case 'blue': return 'hover:text-black-400';
+      case 'yellow': return 'hover:text-black-400';
+      case 'green': return 'hover:text-black-400';
       default: return 'hover:text-blue-400';
     }
   };
