@@ -83,7 +83,7 @@ const IrisImageScrapper: React.FC = () => {
             <FileUpload 
               title="IRIS Image Scrapper Tool" 
               buttonColor="green"
-              acceptedFileTypes=".jpg,.jpeg,.png"
+              acceptedFileTypes=".xlsx,.xls,.csv"
               onFileUpload={handleFileUpload}
               onRunClick={handleRunScript}
               isProcessing={isProcessing}
@@ -122,16 +122,16 @@ const IrisImageScrapper: React.FC = () => {
           <div className="mt-6 bg-white rounded-xl shadow-sm p-6 border border-green-100">
             <h2 className="text-lg font-medium mb-3">About This Tool</h2>
             <p className="text-gray-600">
-              The IRIS Image Scrapper tool extracts valuable data from your IRIS images. 
+              The IRIS Image Scrapper tool extracts valuable data from your Excel files. 
               When you click Run, our Python script (ImageScrapper.py) processes your file 
               and returns the results.
             </p>
             <div className="mt-4 p-4 bg-gray-50 rounded-md">
               <h3 className="text-sm font-medium text-gray-700">How to use:</h3>
               <ol className="list-decimal list-inside mt-2 text-sm text-gray-600 space-y-1">
-                <li>Upload an image file (JPG, JPEG, or PNG)</li>
+                <li>Upload an Excel file (XLSX, XLS, or CSV)</li>
                 <li>Click the "Run" button</li>
-                <li>Wait for the Python script to process your image</li>
+                <li>Wait for the Python script to process your file</li>
                 <li>View the results displayed below</li>
               </ol>
             </div>
