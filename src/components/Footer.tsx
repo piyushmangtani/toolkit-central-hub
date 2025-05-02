@@ -14,6 +14,9 @@ const Footer: React.FC = () => {
             />
             <span className="text-sm font-medium text-gray-500">PPK Toolkit</span>
           </div>
+          <div className="text-sm text-gray-500">
+            © 2025 Bain and Company, all rights reserved.
+          </div>
         </div>
       </div>
     </footer>

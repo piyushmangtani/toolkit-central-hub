@@ -37,6 +37,7 @@ const IrisImageScrapper: React.FC = () => {
       // Create FormData to send the file
       const formData = new FormData();
       formData.append('file', uploadedFile);
+      formData.append('toolType', 'iris');
       
       // Send the file to the Python backend
       const response = await fetch('http://localhost:5000/api/process', {
@@ -53,7 +54,7 @@ const IrisImageScrapper: React.FC = () => {
       console.log("Response:", data);
       
       setResult(data.result.message);
-      toast.success(`File processed successfully! Result: ${data.result.message}`);
+      toast.success(`File processed successfully!`);
     } catch (error) {
       console.error("Error processing file:", error);
       setError(error instanceof Error ? error.message : 'Unknown error occurred');

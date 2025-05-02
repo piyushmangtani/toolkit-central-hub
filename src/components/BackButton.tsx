@@ -18,18 +18,18 @@ const BackButton: React.FC<BackButtonProps> = ({ className, color = 'blue' }) =>
 
   const getHoverColor = () => {
     switch (color) {
-      case 'red': return 'hover:text-black-400';
-      case 'blue': return 'hover:text-black-400';
-      case 'yellow': return 'hover:text-black-400';
-      case 'green': return 'hover:text-black-400';
-      default: return 'hover:text-blue-400';
+      case 'red': return 'hover:text-white';
+      case 'blue': return 'hover:text-white';
+      case 'yellow': return 'hover:text-white';
+      case 'green': return 'hover:text-white';
+      default: return 'hover:text-white';
     }
   };
 
   return (
     <Button 
       variant="ghost" 
-      className={`gap-2 text-gray-500 ${getHoverColor()} ${className}`} 
+      className={`gap-2 text-gray-500 hover:bg-black ${getHoverColor()} ${className}`} 
       onClick={handleGoBack}
     >
       <ArrowLeft size={18} />

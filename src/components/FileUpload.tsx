@@ -1,9 +1,9 @@
-
 import React, { useState, useRef } from 'react';
 import { cn } from '@/lib/utils';
 import { FileUp, UploadCloud } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { toast } from '@/components/ui/sonner';
+import { Progress } from '@/components/ui/progress';
 
 interface FileUploadProps {
   title: string;
@@ -26,7 +26,36 @@ const FileUpload: React.FC<FileUploadProps> = ({
 }) => {
   const [isDragging, setIsDragging] = useState(false);
   const [file, setFile] = useState<File | null>(null);
+  const [progress, setProgress] = useState(0);
   const fileInputRef = useRef<HTMLInputElement>(null);
+
+  // Effect to simulate progress when processing
+  React.useEffect(() => {
+    let interval: NodeJS.Timeout;
+    
+    if (isProcessing) {
+      setProgress(0);
+      interval = setInterval(() => {
+        setProgress(prev => {
+          // Increase progress but cap at 90% until actually complete
+          const newProgress = Math.min(prev + Math.random() * 10, 90);
+          return newProgress;
+        });
+      }, 500);
+    } else if (progress > 0) {
+      // When processing is complete, set to 100%
+      setProgress(100);
+      // Reset progress after a delay
+      const timeout = setTimeout(() => {
+        setProgress(0);
+      }, 2000);
+      return () => clearTimeout(timeout);
+    }
+
+    return () => {
+      if (interval) clearInterval(interval);
+    };
+  }, [isProcessing, progress]);
 
   const handleDragEnter = (e: React.DragEvent<HTMLDivElement>) => {
     e.preventDefault();
@@ -173,6 +202,17 @@ const FileUpload: React.FC<FileUploadProps> = ({
               Remove
             </Button>
           </div>
+        </div>
+      )}
+
+      {/* Progress bar - shows only when processing or recently completed */}
+      {progress > 0 && (
+        <div className="mt-4 space-y-2">
+          <div className="flex justify-between text-xs text-gray-500">
+            <span>Processing...</span>
+            <span>{Math.round(progress)}%</span>
+          </div>
+          <Progress value={progress} className="h-2" />
         </div>
       )}
 
