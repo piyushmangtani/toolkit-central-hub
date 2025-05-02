@@ -67,73 +67,77 @@ const InsightArchiving: React.FC = () => {
   return (
     <div className="min-h-screen flex flex-col bg-white">
       <Navbar />
-      <main className="flex-grow py-10 px-4">
-        <div className="container mx-auto max-w-4xl">
+      <main className="flex-grow py-8 px-4">
+        <div className="container mx-auto max-w-7xl">
           <div className="mb-6">
             <BackButton color="blue" />
           </div>
 
-          <div className="mb-8 flex items-center space-x-3">
+          <div className="mb-6 flex items-center space-x-3">
             <div className="p-3 bg-blue-100 rounded-full">
               <Archive className="text-blue-400" size={24} />
             </div>
             <h1 className="text-2xl font-bold text-gray-800">Insight Archiving</h1>
           </div>
           
-          <div className="bg-white rounded-xl shadow-sm p-6 md:p-8 border border-blue-100">
-            <FileUpload 
-              title="Insight Archiving Tool" 
-              buttonColor="blue"
-              acceptedFileTypes=".xlsx,.xls,.csv"
-              onFileUpload={handleFileUpload}
-              onRunClick={handleRunScript}
-              isProcessing={isProcessing}
-            />
-            
-            {uploadedFile && (
+          <div className="flex gap-6">
+            {/* About This Tool Section - LEFT */}
+            <div className="w-1/2 bg-white rounded-xl shadow-sm p-5 border border-blue-100">
+              <h2 className="text-lg font-medium mb-3">About This Tool</h2>
+              <p className="text-gray-600">
+                The Insight Archiving tool helps you organize and archive valuable insights from your data.
+                Upload your Excel file and our system will process it, making your insights easily accessible.
+              </p>
               <div className="mt-4 p-4 bg-gray-50 rounded-md">
-                <h3 className="text-sm font-medium text-gray-700">Ready to process:</h3>
-                <p className="text-sm text-gray-500">{uploadedFile.name}</p>
+                <h3 className="text-sm font-medium text-gray-700">How to use:</h3>
+                <ol className="list-decimal list-inside mt-2 text-sm text-gray-600 space-y-1">
+                  <li>Upload an Excel file (XLSX, XLS, or CSV)</li>
+                  <li>Click the "Run" button</li>
+                  <li>Wait for the Python script to process your file</li>
+                  <li>View the results displayed below</li>
+                </ol>
               </div>
-            )}
-
-            {result && (
-              <div className="mt-4">
-                <Alert className="bg-blue-50 border-blue-200">
-                  <AlertTitle>Processing Result</AlertTitle>
-                  <AlertDescription>
-                    {result}
-                  </AlertDescription>
-                </Alert>
-              </div>
-            )}
+            </div>
             
-            {error && (
-              <div className="mt-4">
-                <Alert variant="destructive">
-                  <AlertTitle>Error</AlertTitle>
-                  <AlertDescription>
-                    {error}
-                  </AlertDescription>
-                </Alert>
-              </div>
-            )}
-          </div>
+            {/* File Upload Section - RIGHT */}
+            <div className="w-1/2 bg-white rounded-xl shadow-sm p-5 border border-blue-100">
+              <FileUpload 
+                title="Insight Archiving Tool" 
+                buttonColor="blue"
+                acceptedFileTypes=".xlsx,.xls,.csv"
+                onFileUpload={handleFileUpload}
+                onRunClick={handleRunScript}
+                isProcessing={isProcessing}
+              />
+              
+              {uploadedFile && (
+                <div className="mt-4 p-4 bg-gray-50 rounded-md">
+                  <h3 className="text-sm font-medium text-gray-700">Ready to process:</h3>
+                  <p className="text-sm text-gray-500">{uploadedFile.name}</p>
+                </div>
+              )}
 
-          <div className="mt-6 bg-white rounded-xl shadow-sm p-6 border border-blue-100">
-            <h2 className="text-lg font-medium mb-3">About This Tool</h2>
-            <p className="text-gray-600">
-              The Insight Archiving tool helps you organize and archive valuable insights from your data.
-              Upload your Excel file and our system will process it, making your insights easily accessible.
-            </p>
-            <div className="mt-4 p-4 bg-gray-50 rounded-md">
-              <h3 className="text-sm font-medium text-gray-700">How to use:</h3>
-              <ol className="list-decimal list-inside mt-2 text-sm text-gray-600 space-y-1">
-                <li>Upload an Excel file (XLSX, XLS, or CSV)</li>
-                <li>Click the "Run" button</li>
-                <li>Wait for the Python script to process your file</li>
-                <li>View the results displayed below</li>
-              </ol>
+              {result && (
+                <div className="mt-4">
+                  <Alert className="bg-blue-50 border-blue-200">
+                    <AlertTitle>Processing Result</AlertTitle>
+                    <AlertDescription>
+                      {result}
+                    </AlertDescription>
+                  </Alert>
+                </div>
+              )}
+              
+              {error && (
+                <div className="mt-4">
+                  <Alert variant="destructive">
+                    <AlertTitle>Error</AlertTitle>
+                    <AlertDescription>
+                      {error}
+                    </AlertDescription>
+                  </Alert>
+                </div>
+              )}
             </div>
           </div>
         </div>
