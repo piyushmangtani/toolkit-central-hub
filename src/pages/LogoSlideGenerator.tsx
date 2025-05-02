@@ -3,6 +3,7 @@ import React, { useState, KeyboardEvent } from 'react';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import BackButton from '@/components/BackButton';
+import QueuedTaskStatus from '@/components/QueuedTaskStatus';
 import { Image, X, Search } from 'lucide-react';
 import { toast } from '@/components/ui/sonner';
 import { Alert, AlertTitle, AlertDescription } from '@/components/ui/alert';
@@ -14,9 +15,7 @@ const LogoSlideGenerator: React.FC = () => {
   const [companyNames, setCompanyNames] = useState<string[]>([]);
   const [inputValue, setInputValue] = useState<string>('');
   const [isProcessing, setIsProcessing] = useState(false);
-  const [processingProgress, setProcessingProgress] = useState(0);
-  const [result, setResult] = useState<string | null>(null);
-  const [error, setError] = useState<string | null>(null);
+  const [taskId, setTaskId] = useState<string | null>(null);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setInputValue(e.target.value);
@@ -77,24 +76,10 @@ const LogoSlideGenerator: React.FC = () => {
     }
 
     setIsProcessing(true);
-    setProcessingProgress(0);
-    setResult(null);
-    setError(null);
+    setTaskId(null);
     
     try {
-      toast.info("Processing your request...");
-      
-      // Simulate processing progress
-      const progressInterval = setInterval(() => {
-        setProcessingProgress(prev => {
-          const newProgress = prev + 10;
-          if (newProgress >= 100) {
-            clearInterval(progressInterval);
-            return 100;
-          }
-          return newProgress;
-        });
-      }, 500);
+      toast.info("Submitting your request to the queue...");
       
       // Create FormData to send company names
       const formData = new FormData();
@@ -105,25 +90,21 @@ const LogoSlideGenerator: React.FC = () => {
       const response = await fetch('http://localhost:5000/api/process-companies', {
         method: 'POST',
         body: formData,
+        credentials: 'include',
       });
-      
-      clearInterval(progressInterval);
-      setProcessingProgress(100);
       
       if (!response.ok) {
         throw new Error(`Server responded with status: ${response.status}`);
       }
       
       const data = await response.json();
-      console.log("Python script executed: LogoSlideGenerator.py");
-      console.log("Response:", data);
+      console.log("Task submitted to queue:", data);
       
-      setResult(data.result.message);
-      toast.success(`Processing completed successfully!`);
+      setTaskId(data.task_id);
+      toast.success(`Request added to queue at position ${data.position}`);
     } catch (error) {
       console.error("Error processing request:", error);
-      setError(error instanceof Error ? error.message : 'Unknown error occurred');
-      toast.error("Error processing request. Please try again.");
+      toast.error("Error submitting request. Please try again.");
     } finally {
       setIsProcessing(false);
     }
@@ -160,6 +141,7 @@ const LogoSlideGenerator: React.FC = () => {
                   <li>Press Enter to add it to the list</li>
                   <li>Add multiple company names at once by separating them with commas or semicolons</li>
                   <li>Click the "Generate Slides" button</li>
+                  <li>Your request will be added to the queue</li>
                   <li>Wait for the Python script to process your request</li>
                   <li>View the results displayed below</li>
                 </ol>
@@ -212,37 +194,15 @@ const LogoSlideGenerator: React.FC = () => {
                 >
                   {isProcessing ? 'Processing...' : 'Generate Slides'}
                 </Button>
+                <div className="mt-2 text-sm text-gray-500">
+                  {companyNames.length > 0 && (
+                    <span>Ready to generate slides for {companyNames.length} companies</span>
+                  )}
+                </div>
               </div>
               
-              {/* Progress Bar */}
-              {isProcessing && (
-                <div className="mt-4">
-                  <p className="text-sm text-gray-500 mb-2">Processing: {processingProgress}%</p>
-                  <Progress value={processingProgress} className="h-2" />
-                </div>
-              )}
-
-              {result && (
-                <div className="mt-4">
-                  <Alert className="bg-yellow-50 border-yellow-200">
-                    <AlertTitle>Processing Result</AlertTitle>
-                    <AlertDescription>
-                      {result}
-                    </AlertDescription>
-                  </Alert>
-                </div>
-              )}
-              
-              {error && (
-                <div className="mt-4">
-                  <Alert variant="destructive">
-                    <AlertTitle>Error</AlertTitle>
-                    <AlertDescription>
-                      {error}
-                    </AlertDescription>
-                  </Alert>
-                </div>
-              )}
+              {/* Task Status */}
+              <QueuedTaskStatus taskId={taskId} />
             </div>
           </div>
         </div>
