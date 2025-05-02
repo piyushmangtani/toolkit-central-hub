@@ -6,8 +6,8 @@ const Hero: React.FC = () => {
     <section className="relative w-full py-12 md:py-16 bg-gradient-to-br from-blue-100 to-white overflow-hidden">
       <div className="container mx-auto px-4 md:px-6 relative z-10">
         <div className="flex flex-col items-center text-center space-y-4 max-w-xl mx-auto">
-          <div className="rounded-full bg-blue-500/10 px-3 py-1 text-sm font-medium text-blue-500 mb-2">
-            Professional Productivity Kit
+          <div className="rounded-full bg-red-400 px-3 py-1 text-sm font-medium text-white mb-2">
+            Bain & Company
           </div>
           <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold tracking-tighter text-blue-500">
             PPK Toolkit

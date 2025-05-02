@@ -14,7 +14,7 @@ const Navbar: React.FC = () => {
   };
   
   return (
-    <header className="w-full py-4 px-6 bg-white border-b border-blue-100 sticky top-0 z-10">
+    <header className="w-full py-4 px-6 bg-white border-b border-blue-100 sticky top-0 z-50">
       <div className="container max-w-7xl mx-auto flex justify-between items-center">
         <Link to="/" className="flex items-center gap-2">
           <img 

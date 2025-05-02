@@ -1,22 +1,37 @@
 import pandas as pd
+import time
+from selenium import webdriver
+from selenium.webdriver.chrome.service import Service
+from selenium.webdriver.chrome.options import Options
+from webdriver_manager.chrome import ChromeDriverManager
 
 def process_image(file_path):
-    """
-    Process an Excel file and extract data from it as JSON.
 
-    Args:
-        file_path (str): Path to the Excel file.
-
-    Returns:
-        str: A JSON string (list of records) representing the sheet’s data,
-             with any missing values as null.
-    """
     print(f"Processing file: {file_path}")
-    # Read the first sheet of the Excel file into a DataFrame
     df = pd.read_excel(file_path)
-
-    # Export directly to JSON (orient="records" → list of dicts; NaN → null)
     json_str = df.to_json(orient="records")
 
-    #return json_str
+    chrome_options = Options()
+    # Always run with a visible window; no headless argument added
+
+    # Service will download and manage the correct driver automatically
+
+    num_tabs=3
+    pause=1
+    service = Service(ChromeDriverManager().install())
+    driver = webdriver.Chrome(service=service, options=chrome_options)
+
+    # Open first tab
+    driver.get("https://www.google.com")
+    time.sleep(pause)
+        # Open the remaining tabs
+    for _ in range(num_tabs - 1):
+        driver.execute_script("window.open('');")
+        driver.switch_to.window(driver.window_handles[-1])
+        driver.get("https://www.google.com")
+        time.sleep(pause)
+
+    print(f"Opened {num_tabs} tabs to google.com")
+
     return {"message": json_str}
+
