@@ -25,15 +25,45 @@ const LogoSlideGenerator: React.FC = () => {
   const handleKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Enter' && inputValue.trim()) {
       e.preventDefault();
-      addCompany(inputValue.trim());
+      addCompanies(inputValue.trim());
     }
   };
 
-  const addCompany = (name: string) => {
-    if (name && !companyNames.includes(name)) {
-      setCompanyNames([...companyNames, name]);
-      setInputValue('');
+  const addCompanies = (input: string) => {
+    // Check if input contains commas or semicolons
+    if (input.includes(',') || input.includes(';')) {
+      // Split by comma or semicolon and filter out empty entries
+      const companiesArray = input
+        .split(/[,;]/)
+        .map(name => name.trim())
+        .filter(name => name !== '');
+      
+      // Add all valid companies from the array
+      const newCompanies = [...companyNames];
+      let addedCount = 0;
+      
+      companiesArray.forEach(company => {
+        if (!newCompanies.includes(company)) {
+          newCompanies.push(company);
+          addedCount++;
+        }
+      });
+      
+      if (addedCount > 0) {
+        setCompanyNames(newCompanies);
+        if (addedCount > 1) {
+          toast.success(`Added ${addedCount} companies`);
+        }
+      }
+    } else {
+      // Single company name case
+      if (!companyNames.includes(input)) {
+        setCompanyNames([...companyNames, input]);
+      }
     }
+    
+    // Clear input field after processing
+    setInputValue('');
   };
 
   const removeCompany = (nameToRemove: string) => {
@@ -128,7 +158,7 @@ const LogoSlideGenerator: React.FC = () => {
                 <ol className="list-decimal list-inside mt-2 text-sm text-gray-600 space-y-1">
                   <li>Type a company name in the search field</li>
                   <li>Press Enter to add it to the list</li>
-                  <li>Add multiple company names as needed</li>
+                  <li>Add multiple company names at once by separating them with commas or semicolons</li>
                   <li>Click the "Generate Slides" button</li>
                   <li>Wait for the Python script to process your request</li>
                   <li>View the results displayed below</li>
@@ -145,7 +175,7 @@ const LogoSlideGenerator: React.FC = () => {
                     <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-gray-400" />
                     <Input
                       type="text"
-                      placeholder="Type company name and press Enter..."
+                      placeholder="Type company names (separate multiple with comma or semicolon)..."
                       value={inputValue}
                       onChange={handleInputChange}
                       onKeyDown={handleKeyDown}
