@@ -27,7 +27,8 @@ const QueuedTaskStatus: React.FC<QueuedTaskStatusProps> = ({ taskId }) => {
     queryFn: async () => {
       if (!taskId) return null;
       
-      const response = await fetch(`http://localhost:5000/api/task/${taskId}`, {
+      // Use relative URL instead of absolute URL with localhost
+      const response = await fetch(`/api/task/${taskId}`, {
         credentials: 'include'
       });
       
@@ -38,6 +39,7 @@ const QueuedTaskStatus: React.FC<QueuedTaskStatusProps> = ({ taskId }) => {
       return response.json() as Promise<TaskStatus>;
     },
     enabled: !!taskId,
+    // Fix TypeScript error by correctly accessing data property
     refetchInterval: (data) => {
       // Stop polling if task is completed or failed
       if (data?.status === 'completed' || data?.status === 'failed') {

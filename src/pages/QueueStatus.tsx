@@ -1,9 +1,8 @@
 
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import { useAuth } from '@/hooks/useAuth';
-import { toast } from '@/components/ui/sonner';
 import { 
   Table, 
   TableBody, 
@@ -24,14 +23,20 @@ interface TaskStatus {
   timestamp: string;
 }
 
+// Define the task data structure for typesafety
+interface TasksData {
+  [key: string]: TaskStatus;
+}
+
 const QueueStatus: React.FC = () => {
-  const { authenticated, email } = useAuth();
+  const { authenticated } = useAuth();
   
-  // Fetch user tasks
-  const { data: tasks, isLoading, error, refetch } = useQuery({
+  // Fetch user tasks with proper type annotations
+  const { data: tasks, isLoading, error } = useQuery<TasksData>({
     queryKey: ['user-tasks'],
     queryFn: async () => {
-      const response = await fetch('http://localhost:5000/api/tasks', {
+      // Use relative URL instead of absolute URL with localhost
+      const response = await fetch('/api/tasks', {
         credentials: 'include'
       });
       

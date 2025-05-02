@@ -26,7 +26,8 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
   useEffect(() => {
     const checkAuth = async () => {
       try {
-        const response = await fetch('http://localhost:5000/api/auth/check', {
+        // Use relative URL instead of absolute URL with localhost
+        const response = await fetch('/api/auth/check', {
           method: 'GET',
           credentials: 'include'  // Important for cookies/session
         });
@@ -47,7 +48,8 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
   }, []);
   
   const login = async (email: string): Promise<void> => {
-    const response = await fetch('http://localhost:5000/api/auth/login', {
+    // Use relative URL instead of absolute URL with localhost
+    const response = await fetch('/api/auth/login', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -67,7 +69,8 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
   };
   
   const logout = async (): Promise<void> => {
-    await fetch('http://localhost:5000/api/auth/logout', {
+    // Use relative URL instead of absolute URL with localhost
+    await fetch('/api/auth/logout', {
       method: 'POST',
       credentials: 'include'  // Important for cookies/session
     });
