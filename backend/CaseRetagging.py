@@ -1,25 +1,11 @@
-
-import pandas as pd
-
 def process_data(file_path):
     """
-    Process an Excel file for Case Retagging.
-    
-    Args:
-        file_path (str): Path to the Excel file.
-        
-    Returns:
-        dict: A dictionary containing the processing result.
+    Returns the numbers 1,2,3,4,5 as a list.
     """
-    print(f"Processing Case Retagging file: {file_path}")
+    # simple loop to collect 1→5
+    result = []
+    for i in range(1, 6):
+        result.append(i)
     
-    # Read the Excel file
-    df = pd.read_excel(file_path)
-    
-    # Perform case retagging operations (placeholder for actual implementation)
-    rows_count = len(df)
-    columns_count = len(df.columns)
-    
-    return {
-        "message": f"Successfully retagged {rows_count} cases with {columns_count} attributes."
-    }
+    # send back as JSON‐serializable data
+    return {"message": result}
