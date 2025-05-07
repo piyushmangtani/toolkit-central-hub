@@ -1,4 +1,3 @@
-
 from flask import Flask, request, jsonify, session
 from flask_cors import CORS
 import os
@@ -232,6 +231,19 @@ def process_companies():
         company_names = request.form.get('companyNames', '[]')
         tool_type = 'logo-slide-generator'
         
+        # Validate that we have company names
+        if not company_names or company_names.strip() == '':
+            return jsonify({'error': 'No company names provided'}), 400
+        
+        # Parse the companies to validate the data
+        try:
+            company_data = json.loads(company_names)
+            # If it's just a list, convert to expected format
+            if isinstance(company_data, list):
+                company_names = json.dumps({'companies': company_data})
+        except json.JSONDecodeError:
+            return jsonify({'error': 'Invalid JSON data for company names'}), 400
+        
         # Create a temp file with the company names
         if not os.path.exists(UPLOAD_FOLDER):
             os.makedirs(UPLOAD_FOLDER)
@@ -331,4 +343,3 @@ def health_check():
 
 if __name__ == '__main__':
     app.run(debug=True, port=5000)
-
