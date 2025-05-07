@@ -229,11 +229,8 @@ def process_companies():
         return jsonify({'error': 'Not authenticated'}), 401
     
     try:
-        company_names = json.loads(request.form.get('companyNames', '[]'))
+        company_names = request.form.get('companyNames', '[]')
         tool_type = 'logo-slide-generator'
-        
-        if not company_names:
-            return jsonify({'error': 'No company names provided'}), 400
         
         # Create a temp file with the company names
         if not os.path.exists(UPLOAD_FOLDER):
@@ -243,7 +240,7 @@ def process_companies():
         filepath = os.path.join(app.config['UPLOAD_FOLDER'], filename)
         
         with open(filepath, 'w') as f:
-            json.dump({'companies': company_names}, f)
+            f.write(company_names)
         
         # Create task ID and add to queue
         task_counter[tool_type] += 1
@@ -334,3 +331,4 @@ def health_check():
 
 if __name__ == '__main__':
     app.run(debug=True, port=5000)
+

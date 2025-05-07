@@ -6,5 +6,6 @@ pandas
 openpyxl
 selenium
 webdriver-manager
-beautifulsoup4  
+beautifulsoup4
+requests  
 
