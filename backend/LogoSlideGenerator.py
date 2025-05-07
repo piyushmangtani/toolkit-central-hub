@@ -26,6 +26,8 @@ def process_companies(company_names):
         output_dir = os.path.join('uploads', 'logos', datetime.now().strftime('%Y%m%d_%H%M%S'))
         os.makedirs(output_dir, exist_ok=True)
         
+        print(output_dir)
+
         # API key for the logo API
         api_key = 'wbAz6zLtvo11is956wPNew==PUsDlGTjItHuEs5I'
         
