@@ -1,28 +1,37 @@
+// vite.config.js
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react-swc";
 import path from "path";
 import { componentTagger } from "lovable-tagger";
 
-// https://vitejs.dev/config/
 export default defineConfig(({ mode }) => ({
   server: {
-    host: "::",
+    // bind to every interface (both v4 & v6)
+    host: true,       
     port: 8080,
+
+    // enable CORS to reflect whatever origin the browser used,
+    // and allow cookies to be sent
+    cors: {
+      origin: true,
+      credentials: true,
+    },
+
     proxy: {
-      // Proxy all `/api/*` requests to Flask on port 5000
-      '/api': {
-        target: 'http://localhost:5000',
+      "/api": {
+        target: "http://localhost:5000",
         changeOrigin: true,
-        secure: false,  // if your Flask server is HTTP in dev
-        ws: true,       // if you eventually use WebSockets
+        secure: false,
+        ws: true,
       },
     },
   },
+
   plugins: [
     react(),
-    mode === 'development' &&
-    componentTagger(),
+    mode === "development" && componentTagger(),
   ].filter(Boolean),
+
   resolve: {
     alias: {
       "@": path.resolve(__dirname, "./src"),

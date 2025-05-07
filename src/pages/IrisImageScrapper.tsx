@@ -37,7 +37,7 @@ const IrisImageScrapper: React.FC = () => {
       formData.append('toolType', 'iris');
       
       // Send the file to the Python backend
-      const response = await fetch('http://localhost:5000/api/process', {
+      const response = await fetch('/api/process', {
         method: 'POST',
         body: formData,
         credentials: 'include',

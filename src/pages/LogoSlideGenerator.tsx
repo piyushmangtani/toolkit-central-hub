@@ -87,7 +87,7 @@ const LogoSlideGenerator: React.FC = () => {
       formData.append('toolType', 'logo-slide-generator');
       
       // Send the data to the Python backend
-      const response = await fetch('http://localhost:5000/api/process-companies', {
+      const response = await fetch('api/process-companies', {
         method: 'POST',
         body: formData,
         credentials: 'include',
@@ -131,7 +131,7 @@ const LogoSlideGenerator: React.FC = () => {
             <div className="w-1/2 bg-white rounded-xl shadow-sm p-5 border border-yellow-100">
               <h2 className="text-lg font-medium mb-3">About This Tool</h2>
               <p className="text-gray-600">
-                The Logo Slide Generator tool helps you create professional logo slides for your presentations.
+                The Logo Slide Generator tool helps you fetch company logos and create professional logo slides for your presentations.
                 Enter company names and our system will generate formatted slides with their logos.
               </p>
               <div className="mt-4 p-4 bg-gray-50 rounded-md">

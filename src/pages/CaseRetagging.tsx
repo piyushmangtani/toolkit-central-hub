@@ -37,7 +37,7 @@ const CaseRetagging: React.FC = () => {
       formData.append('toolType', 'case-retagging');
       
       // Send the file to the Python backend
-      const response = await fetch('http://localhost:5000/api/process', {
+      const response = await fetch('/api/process', {
         method: 'POST',
         body: formData,
         credentials: 'include',
@@ -81,8 +81,8 @@ const CaseRetagging: React.FC = () => {
             <div className="w-1/2 bg-white rounded-xl shadow-sm p-5 border border-red-100">
               <h2 className="text-lg font-medium mb-3">About This Tool</h2>
               <p className="text-gray-600">
-                The Case Retagging tool helps you organize and tag case files efficiently.
-                Upload your Excel file and our system will process the data, applying smart retagging algorithms.
+                The Case Retagging tool helps you retag cases on IRIS.
+                Upload your Case Modification Excel file and our system will reatg the cases.
               </p>
               <div className="mt-4 p-4 bg-gray-50 rounded-md">
                 <h3 className="text-sm font-medium text-gray-700">How to use:</h3>
