@@ -11,15 +11,48 @@ def process_companies(company_names):
     Process company names for Logo Slide Generation.
     
     Args:
-        company_names (str): JSON string of company names.
+        company_names (str): JSON string of company names or path to JSON file.
         
     Returns:
         dict: A dictionary containing the processing result.
     """
-    # Parse the JSON string to get company names list
     try:
-        data = json.loads(company_names)
-        companies = data.get('companies', [])
+        # Check if company_names is a file path or a JSON string
+        if os.path.isfile(company_names):
+            with open(company_names, 'r') as file:
+                file_content = file.read().strip()
+                if not file_content:
+                    raise ValueError("Empty file content")
+                
+                try:
+                    data = json.loads(file_content)
+                except json.JSONDecodeError:
+                    # Try parsing as a raw list if JSON object fails
+                    # This is a fallback in case the file doesn't contain valid JSON
+                    companies = [name.strip() for name in file_content.replace('[', '').replace(']', '').replace('"', '').split(',') if name.strip()]
+                    if not companies:
+                        raise ValueError("No valid company names found in file")
+                    else:
+                        print(f"Parsed {len(companies)} companies from file content")
+        else:
+            # Assume company_names is a JSON string directly
+            data = json.loads(company_names)
+        
+        # Extract companies from the data
+        if isinstance(data, dict):
+            companies = data.get('companies', [])
+        elif isinstance(data, list):
+            companies = data  # If data is already a list, use it directly
+        else:
+            companies = [str(data)]  # Convert to string if it's a single value
+        
+        # Validate companies
+        if not companies or not isinstance(companies, list):
+            return {
+                'error': "No valid company names provided",
+                'message': "Logo Slide Generation failed: No valid company names found."
+            }
+            
         print(f"Processing Logo Slide Generator for companies: {companies}")
         
         # Create directory for logos if it doesn't exist
@@ -37,6 +70,12 @@ def process_companies(company_names):
         
         for company in companies:
             try:
+                # Skip empty company names
+                if not company or not company.strip():
+                    continue
+                    
+                company = company.strip()
+                
                 # Make API request to get logo
                 api_url = f'https://api.api-ninjas.com/v1/logo?name={company}'
                 response = requests.get(api_url, headers={'X-Api-Key': api_key})
@@ -97,4 +136,3 @@ def process_companies(company_names):
             'error': str(e),
             'message': "Logo Slide Generation failed."
         }
-
