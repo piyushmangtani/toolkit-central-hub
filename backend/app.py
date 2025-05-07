@@ -11,7 +11,7 @@ from werkzeug.utils import secure_filename
 from ImageScrapper import process_image
 from CaseRetagging import process_data as process_case_retagging
 from InsightArchiving import process_data as process_insight_archiving
-from LogoSlideGenerator import process_data as process_logo_slide_generator
+from LogoSlideGenerator import process_companies as process_logo_slide_generator
 
 app = Flask(__name__)
 CORS(app, supports_credentials=True)  # Enable CORS for all routes with credentials support
