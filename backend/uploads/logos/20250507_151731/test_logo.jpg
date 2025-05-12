@@ -1,0 +1,35 @@
+{
+  "company": "test",
+  "logo_data": [
+    {
+      "name": "Advantest",
+      "ticker": "6857.T",
+      "image": "https://api-ninjas-data.s3.us-west-2.amazonaws.com/logos/lad9a95fec1675d45106a7f7e2c4e1e55eb1312cb.png"
+    },
+    {
+      "name": "Aehr Test Systems",
+      "ticker": "AEHR",
+      "image": "https://api-ninjas-data.s3.us-west-2.amazonaws.com/logos/l54714ef0cab92d638f6731516f391d361f853c52.png"
+    },
+    {
+      "name": "Biotest",
+      "ticker": "BIO.F",
+      "image": "https://api-ninjas-data.s3.us-west-2.amazonaws.com/logos/l33b00f7cf4a1544653db151375b5993b9a65892b.png"
+    },
+    {
+      "name": "Heart Test Laboratories",
+      "ticker": "HSCS",
+      "image": "https://api-ninjas-data.s3.us-west-2.amazonaws.com/logos/l249e0aa4bfdb1eeddde1fa3f6f787e26b3a9e1d6.png"
+    },
+    {
+      "name": "UserTesting",
+      "ticker": "USER",
+      "image": "https://api-ninjas-data.s3.us-west-2.amazonaws.com/logos/lb7752b00b486a44a2fb53aeeb628a84b3d3ccadd.png"
+    },
+    {
+      "name": "Whitestone REIT",
+      "ticker": "WSR",
+      "image": "https://api-ninjas-data.s3.us-west-2.amazonaws.com/logos/l23544e7b507c39bce58523516bbc5be9ce69df30.png"
+    }
+  ]
+}

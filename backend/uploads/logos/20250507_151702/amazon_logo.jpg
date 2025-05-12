@@ -1,0 +1,10 @@
+{
+  "company": "amazon",
+  "logo_data": [
+    {
+      "name": "Amazon",
+      "ticker": "AMZN",
+      "image": "https://api-ninjas-data.s3.us-west-2.amazonaws.com/logos/l74c0fda1054b04bf3e2365d467e32a47e3feba7b.png"
+    }
+  ]
+}

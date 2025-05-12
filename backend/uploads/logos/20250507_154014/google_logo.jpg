@@ -1,0 +1,10 @@
+{
+  "company": "google",
+  "logo_data": [
+    {
+      "name": "Alphabet (Google)",
+      "ticker": "GOOG",
+      "image": "https://api-ninjas-data.s3.us-west-2.amazonaws.com/logos/lfc4548375734de4aa0151bef377e72b1708b5072.png"
+    }
+  ]
+}

@@ -5,6 +5,7 @@ import requests
 import os
 import time
 from datetime import datetime
+from urllib.parse import urlparse, unquote
 
 def process_companies(company_names):
     """
@@ -67,7 +68,23 @@ def process_companies(company_names):
         # Fetch logos for each company
         successful_logos = []
         failed_logos = []
+
+        def download_image(url, save_path):
+            resp = requests.get(url, stream=True, verify=False)
+            resp.raise_for_status()
+            with open(save_path, 'wb') as f:
+                for chunk in resp.iter_content(1024):
+                    f.write(chunk)
         
+        def get_extension_from_url(url):
+            """
+            Infer a file extension from the URL path.
+            Falls back to '.png' if none found.
+            """
+            path = unquote(urlparse(url).path)            # e.g. '/logos/foo.png'
+            ext = os.path.splitext(path)[1]               # e.g. '.png'
+            return ext if ext else '.png'
+
         for company in companies:
             try:
                 # Skip empty company names
@@ -78,10 +95,49 @@ def process_companies(company_names):
                 
                 # Make API request to get logo
                 api_url = f'https://api.api-ninjas.com/v1/logo?name={company}'
-                response = requests.get(api_url, headers={'X-Api-Key': api_key})
-                
+                response = requests.get(api_url, headers={'X-Api-Key': api_key}, verify=False)
+
+                if response.status_code != requests.codes.ok:
+                    print(f"  ⚠️ API error ({response.status_code}): {response.text}")
+                    continue
+
+
+                if response.status_code == 200:    
+                    results = response.json()
+                    if not results:
+                        print("  ⚠️ No logos found.")
+                        continue
+
+                    for idx, item in enumerate(results):
+                        img_url = item.get('image')
+                        if not img_url:
+                            print(f"  ⚠️ Result #{idx} has no image URL.")
+                            continue
+
+                        ext = get_extension_from_url(img_url)
+                        # sanitize name for filename
+                        safe = company.strip().replace(' ', '_').replace('/', '_')
+                        filename = f"{safe}_{idx}{ext}"
+                        filepath = os.path.join(output_dir, filename)
+
+                        try:
+                            print(f"  ↓ Downloading image #{idx} from {img_url}")
+                            download_image(img_url, filepath)
+                            print(f"  ✅ Saved to {filepath}")
+                            successful_logos.append({
+                                'company': company,
+                                'file_path': filepath
+                            })
+                        except Exception as e:
+                            print(f"  ❌ Failed to download: {e}")
+                            failed_logos.append({
+                            'company': company,
+                            'reason': 'No logo data returned from API'
+                            })
+                '''    
                 if response.status_code == 200:
                     logo_data = response.json()
+                    print(logo_data)
                     if logo_data:
                         # Save the logo information
                         logo_info = {
@@ -90,7 +146,7 @@ def process_companies(company_names):
                         }
                         
                         # Save to the output directory
-                        output_file = os.path.join(output_dir, f"{company.replace(' ', '_')}_logo.json")
+                        output_file = os.path.join(output_dir, f"{company.replace(' ', '_')}_logo.jpg")
                         with open(output_file, 'w') as f:
                             json.dump(logo_info, f, indent=2)
                             
@@ -109,6 +165,7 @@ def process_companies(company_names):
                         'reason': f"API Error: {response.status_code}, {response.text}"
                     })
                 
+                    '''
                 # Add delay to avoid API rate limiting
                 time.sleep(0.5)
                 
